@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registered Users</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/utility.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link rel="stylesheet" href="../css/approved.css">
+
+    <!-- jsPDF & autoTable CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        /* Define the custom colors for easy use */
+    </style>
+</head>
+
+<body class="approvedBody">
+    <header id="header">
+        <div class="container">
+            <div class="headerWrapper">
+                <div class="headLeft">
+                    <a href="../index.html">
+                        <h1>বাঁশগ্রাম হাইস্কুল অ্যালামনাই</h1>
+                    </a>
+                </div>
+                <div class="headRight">
+                    <ul>
+                        <li><a href="../index.html">হোম</a></li>
+                        <li><a href="registration.html">রেজিস্ট্রেশন</a></li>
+                        <li><a href="../gallery/gallery.php">গ্যালারি</a></li>
+                        <li><a href="contact.html">যোগাযোগ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="center">
+        <h2>Confirmed Registration List</h2>
+        <div class="developer"><span class="developerDetaiils">Can't find your name here? Contact developer 👉</span> <a
+                href="https://wa.me/8801403067758">Farhan Taskin Ismail</a></div>
+
+        <div id="search-container">
+            <div class="searchBar">
+                <img src="../icon/search.svg" alt="search">
+                <input type="text" id="user-search" placeholder="Search by Name or Batch">
+            </div>
+        </div>
+        <div class="matchItems">
+            <span id="match-count"></span>
+        </div>
+
+        <!-- Download PDF Button -->
+        <div style="text-align:center; margin: 15px 0;">
+            <button id="download-pdf" style="padding:10px 20px; font-size:16px;">Download PDF</button>
+        </div>
+
+        <div id="loading">
+            Loading...
+            <svg role="img"
+                aria-label="Mouth and eyes come from 9:00 and rotate clockwise into position, right eye blinks, then all parts rotate and merge into 3:00"
+                class="smiley" viewBox="0 0 128 128">
+                <defs>
+                    <clipPath id="smiley-eyes">
+                        <circle class="smiley__eye1" cx="64" cy="64" r="8"
+                            transform="rotate(-40,64,64) translate(0,-56)" />
+                        <circle class="smiley__eye2" cx="64" cy="64" r="8"
+                            transform="rotate(40,64,64) translate(0,-56)" />
+                    </clipPath>
+                    <linearGradient id="smiley-grad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#000" />
+                        <stop offset="100%" stop-color="#fff" />
+                    </linearGradient>
+                    <mask id="smiley-mask">
+                        <rect x="0" y="0" width="128" height="128" fill="url(#smiley-grad)" />
+                    </mask>
+                </defs>
+                <g stroke-linecap="round" stroke-width="12" stroke-dasharray="175.93 351.86">
+                    <g>
+                        <rect fill="hsl(193,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
+                        <g fill="none" stroke="hsl(193,90%,50%)">
+                            <circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
+                            <circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
+                        </g>
+                    </g>
+                    <g mask="url(#smiley-mask)">
+                        <rect fill="hsl(223,90%,50%)" width="128" height="64" clip-path="url(#smiley-eyes)" />
+                        <g fill="none" stroke="hsl(223,90%,50%)">
+                            <circle class="smiley__mouth1" cx="64" cy="64" r="56" transform="rotate(180,64,64)" />
+                            <circle class="smiley__mouth2" cx="64" cy="64" r="56" transform="rotate(0,64,64)" />
+                        </g>
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <div id="users"></div>
+
+        <script>
+            const API_URL = "https://script.google.com/macros/s/AKfycbwmbsDaONavDqk9nsG9E-WIYblEf9_Kr9BIQ1VqOVlMiTEStXYgCR8pscsooDtZG5t6/exec";
+
+            // Global variable to hold the visible users with their permanent serial number
+            let allVisibleUsers = [];
+
+            // Utility function to mask the number
+            function maskNumber(num) {
+                num = num.toString();
+                if (num.length > 4) {
+                    const start = num.slice(0, 5);
+                    const end = num.slice(-2);
+                    const middleLength = num.length - start.length - end.length;
+                    return start + "X".repeat(middleLength) + end;
+                } else {
+                    return num;
+                }
+            }
+
+            const container = document.getElementById('users');
+            const loading = document.getElementById('loading');
+            const searchInput = document.getElementById('user-search');
+            const matchCountSpan = document.getElementById('match-count');
+
+            // Function to render the table based on provided data
+            function renderTable(data) {
+                container.innerHTML = ''; // Clear previous table
+
+                // Update the match count display (using English singular/plural)
+                if (searchInput.value.trim() !== "") {
+                    const count = data.length;
+                    if (count === 1) {
+                        matchCountSpan.textContent = `1 Match Found.`;
+                    } else {
+                        matchCountSpan.textContent = `${count} Matches Found.`;
+                    }
+                } else {
+                    matchCountSpan.textContent = ''; // Clear count when search is empty
+                }
+
+                if (!data.length) {
+                    container.innerHTML = "<p>No users to show based on the current search.</p>";
+                    return;
+                }
+
+                const table = document.createElement('table');
+                const thead = document.createElement('thead');
+                const headerRow = document.createElement('tr');
+
+                // Table Headers: Serial + Name + Batch + Number + Registered At
+                ["S/N", "Name", "Batch", "Number", "Registered At"].forEach(h => {
+                    const th = document.createElement('th');
+                    th.textContent = h;
+                    headerRow.appendChild(th);
+                });
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                const tbody = document.createElement('tbody');
+                data.forEach((row) => {
+                    const tr = document.createElement('tr');
+
+                    // Serial - স্থির সিরিয়াল নম্বর
+                    const tdSerial = document.createElement('td');
+                    tdSerial.textContent = row["OriginalSN"];
+                    tr.appendChild(tdSerial);
+
+                    // Name
+                    const tdName = document.createElement('td');
+                    tdName.textContent = row["Name"];
+                    tr.appendChild(tdName);
+
+                    // Batch
+                    const tdBatch = document.createElement('td');
+                    tdBatch.textContent = row["Batch"];
+                    tr.appendChild(tdBatch);
+
+                    // Number (Masked)
+                    const tdNumber = document.createElement('td');
+                    tdNumber.textContent = maskNumber(row["Number"]);
+                    tr.appendChild(tdNumber);
+
+                    // Registered At (Formatted Time)
+                    const tdTime = document.createElement('td');
+                    if (row["Time"]) {
+                        const dateObj = new Date(row["Time"]);
+                        const day = dateObj.getDate();
+                        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                        const month = monthNames[dateObj.getMonth()];
+                        let hours = dateObj.getHours();
+                        const minutes = dateObj.getMinutes();
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        hours = hours % 12 || 12;
+                        const minFormatted = minutes < 10 ? '0' + minutes : minutes;
+                        tdTime.textContent = `${day} ${month} ${hours}:${minFormatted}${ampm}`;
+                    } else {
+                        tdTime.textContent = '';
+                    }
+                    tr.appendChild(tdTime);
+
+                    tbody.appendChild(tr);
+                });
+
+                table.appendChild(tbody);
+                container.appendChild(table);
+            }
+
+            // Function to handle the search logic
+            function handleSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+
+                if (searchTerm === "") {
+                    // If the search box is empty, show all visible users
+                    renderTable(allVisibleUsers);
+                    return;
+                }
+
+                const filteredUsers = allVisibleUsers.filter(user => {
+                    // Ensure Batch is treated as string for search
+                    const name = user["Name"].toLowerCase();
+                    const batch = user["Batch"] ? user["Batch"].toString().toLowerCase() : '';
+
+                    // Check if the search term is present in either Name or Batch
+                    return name.includes(searchTerm) || batch.includes(searchTerm);
+                });
+
+                renderTable(filteredUsers);
+            }
+
+            // Add event listener to the search input for real-time filtering
+            searchInput.addEventListener('keyup', handleSearch);
+
+
+            // Initial Data Fetch
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(data => {
+                    // data লোড হওয়ার পর লোডার হাইড করা
+                    loading.style.display = 'none';
+
+                    if (!data.length) {
+                        container.innerHTML = "<p>No users data received from API.</p>";
+                        return;
+                    }
+
+                    // 1. Map, add the Original SN, and then filter
+                    allVisibleUsers = data
+                        .map((user, index) => {
+                            // OriginalSN সেভ করা হলো
+                            user["OriginalSN"] = index + 1;
+                            return user;
+                        })
+                        .filter(user => user.ShowOnWebsite === "Yes");
+
+                    // 2. Render the initial table with all visible users
+                    renderTable(allVisibleUsers);
+                })
+                .catch(err => {
+                    loading.innerHTML = "Failed to load data.";
+                    console.error(err);
+                });
+
+            // PDF Download Logic
+            document.getElementById('download-pdf').addEventListener('click', function () {
+                if (allVisibleUsers.length === 0) {
+                    alert("কোনো ডেটা নেই PDF তৈরির জন্য।");
+                    return;
+                }
+
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                const columns = ["S/N", "Name", "Batch", "Number", "Registered At"];
+                const rows = allVisibleUsers.map(user => [
+                    user.OriginalSN,
+                    user.Name,
+                    user.Batch,
+                    maskNumber(user.Number),
+                    user.Time
+                        ? new Date(user.Time).toLocaleString([], {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: true
+                        })
+                        : ''
+                ]);
+
+                doc.autoTable({
+                    head: [columns],
+                    body: rows,
+                    startY: 20,
+                    theme: 'grid',
+                    headStyles: { fillColor: [52, 58, 64], textColor: 255 },
+                    styles: { fontSize: 10 }
+                });
+
+                doc.save('Registered_Users.pdf');
+            });
+        </script>
+    </div>
+    <footer id="footerSec" class="footerBottom">
+        <div class="footerText">© ২০২৫ বাঁশগ্রাম হাইস্কুল অ্যালামনাই। আমাদের স্মৃতি, আমাদের গর্ব।</div>
+    </footer>
+</body>
+
+</html>

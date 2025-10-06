@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/utility.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/fonts.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet">
+
+</head>
+
+<body class="regBody">
+    <header id="header">
+        <div class="container">
+            <div class="headerWrapper">
+                <div class="headLeft">
+                    <a href="../index.html">
+                        <h1>বাঁশগ্রাম হাইস্কুল অ্যালামনাই</h1>
+                    </a>
+                </div>
+                <div class="headRight">
+                    <ul>
+                        <li><a href="../index.html">হোম</a></li>
+                        <li class="active"><a href="registration.html">রেজিস্ট্রেশন</a></li>
+                        <li><a href="../gallery/gallery.php">গ্যালারি</a></li>
+                        <li><a href="contact.html">যোগাযোগ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="Wrapper">
+        <div class="hiddenDiv" style="display: none;">
+            <div class="hiddenDivWrapper">
+                <span class="successSub">ফর্মটি সফলভাবে জমা দেওয়া হয়েছে।</span>
+                <span class="thansSpan">আমাদের সাথে যোগ দেওয়ার জন্য ধন্যবাদ।</span>
+                <div class="hiddenDivShow"><span class="regList">রেজিস্ট্রেশন লিস্ট দেখুন 👉 </span><a
+                        href="approved.html">Click
+                        Here</a></div>
+                <button class="hiddenButton"><a href="registration.html">Ok</a></button>
+            </div>
+        </div>
+        <div class="registrationBox">
+            <div class="registrationHead">
+                <h2>অ্যালামনাই রেজিস্ট্রেশন</h2>
+            </div>
+            <div class="paymentDetailsWrapper">
+                <div class="paymentAmmount">রেজিস্ট্রেশন ফি — মাত্র ৩০০ টাকা</div>
+                <div class="paymentDetails">অ্যালামনাইতে যোগ দিতে পেমেন্ট করুন, পেমেন্ট সম্পন্ন হলে নিচের তথ্যগুলো
+                    প্রদান করুন
+                    এবং সাবমিট করুন। আমরা যাচাই করে আপনার রেজিস্ট্রেশন কনফার্ম করবো।</div>
+                <div class="paymentNumbers">
+                    <span class="paymentWay">পেমেন্টের মাধ্যম</span>
+                    <span>বিকাশ : 01XXXXXXXXX</span>
+                    <span>নগদ : 01XXXXXXXXX</span>
+                    <span>রকেট : 01XXXXXXXXX</span>
+                    <span>উপায় : 01XXXXXXXXX</span>
+                </div>
+            </div>
+            <form name="contact-form" id="contact-form" method="POST">
+
+                <!-- Hidden input for time -->
+                <input type="hidden" name="Time" id="Time">
+
+                <div class="perName inputStyle">
+                    <label for="name">আপনার নাম লিখুন (ইংরেজিতে)</label>
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="Name" id="user-name-input" placeholder="YOUR NAME">
+                </div>
+
+                <div class="perBatch inputStyle">
+                    <label for="batch">এসএসসি পাসের সাল / ব্যাচ</label>
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <input type="text" name="Batch" id="batch" placeholder="SSC Batch">
+                </div>
+                <div class="perNumber inputStyle">
+                    <label for="number">আপনার মোবাইল নম্বর লিখুন</label>
+                    <i class="fa-solid fa-phone"></i>
+                    <input type="text" name="Number" id="number" placeholder="Mobile Number">
+                </div>
+                <div class="payNumber inputStyle">
+                    <label for="payNum">যে নম্বর থেকে টাকা পাঠিয়েছেন</label>
+                    <i class="fa-solid fa-money-bill-wave"></i>
+                    <input type="text" name="paymentNumber" id="payNum" placeholder="Payment Number">
+                </div>
+                <div class="extraBox inputStyle">
+                    <label for="extra1">Extra Box 1</label>
+                    <i class="fa-solid fa-circle-dot"></i>
+                    <input type="text" name="extra1" id="extra1" placeholder="Extra">
+                </div>
+
+                <div class="extraBox2 inputStyle">
+                    <label for="extra2">Extra Box 2</label>
+                    <i class="fa-solid fa-circle-dot"></i>
+                    <input type="text" name="extra2" id="extra2" placeholder="Extra">
+                </div>
+                <div class="submitButton">
+                    <button type="submit" name="submit" class="submit" id="subBTN">নিশ্চিত করুন <img
+                            src="../icon/ok.svg" alt="Ok"></button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <footer id="footerSec">
+        <div class="footerText">© ২০২৫ বাঁশগ্রাম হাইস্কুল অ্যালামনাই। আমাদের স্মৃতি, আমাদের গর্ব।</div>
+    </footer>
+
+
+    <!-- Updated JS Script -->
+    <script>
+        const nameInput = document.getElementById('user-name-input');
+
+        if (nameInput) {
+            nameInput.addEventListener('input', function () {
+                // ইনপুট বক্সের ভ্যালুটিকে বড় হাতের অক্ষরে পরিবর্তন করে আবার ভ্যালুতে সেট করে দেওয়া
+                this.value = this.value.toUpperCase();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contact-form');
+            const timeInput = document.getElementById('Time');
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzuGiJZnKs3OQn1eod5KoMocidHnzmDg5NDR5AamvfsLsY8CNNBWe2fgbckO7oFS3JW/exec';
+
+            // 1. 💡 মোবাইল নম্বর ইনপুট ফিল্ডটি নিন
+            const mobileNumberInput = document.getElementById('number');
+            // 2. 💡 ব্যাচ নম্বর ইনপুট ফিল্ডটি নিন (যদি ব্যাচেও '0' থাকে, যদিও কম সম্ভাবনা)
+            const batchInput = document.getElementById('batch');
+            // 3. 💡 পেমেন্ট নম্বর ইনপুট ফিল্ডটি নিন
+            const paymentNumberInput = document.getElementById('payNum'); // HTML এ এর id হলো 'payNum'
+
+            form.addEventListener('submit', e => {
+                e.preventDefault();
+
+                // 🔑 সমাধান: সব প্রয়োজনীয় ফিল্ডের শুরুতে অ্যাপোস্ট্রফি যোগ করা
+                // এটি Google Sheet-এ নম্বর/ব্যাচকে Text হিসেবে সংরক্ষণ করবে।
+
+                // মোবাইল নম্বর (Phone Number)
+                if (mobileNumberInput.value) {
+                    mobileNumberInput.value = "'" + mobileNumberInput.value;
+                }
+
+                // যে নম্বর থেকে টাকা পাঠিয়েছেন (Payment Number)
+                if (paymentNumberInput.value) {
+                    paymentNumberInput.value = "'" + paymentNumberInput.value;
+                }
+
+                // এসএসসি ব্যাচ (Batch)
+                if (batchInput.value) {
+                    batchInput.value = "'" + batchInput.value;
+                }
+
+                // Current date & time
+                const now = new Date();
+                const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                let day = now.getDate();
+                let month = monthNames[now.getMonth()];
+                let hours = now.getHours();
+                let minutes = now.getMinutes();
+                let ampm = hours >= 12 ? "PM" : "AM";
+                hours = hours % 12 || 12;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+
+                // Set hidden input
+                timeInput.value = `${day} ${month} ${hours}:${minutes}${ampm}`;
+
+                // Submit form via fetch
+                fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+                    .then(response => response.text())
+                    .then(text => alert(text))
+                    .catch(error => console.error('Error!', error.message));
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('contact-form');
+            const submitBtn = document.getElementById('subBTN');
+            const hiddenDiv = document.querySelector('.hiddenDiv');
+            const registrationBox = document.querySelector('.registrationBox');
+            const okButton = document.querySelector('.hiddenButton');
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Step 1: immediately show button text
+                submitBtn.textContent = 'সাবমিট হচ্ছে...';
+
+                // Step 2: wait 2 seconds then blur and show hiddenDiv
+                setTimeout(function () {
+                    registrationBox.style.filter = 'blur(5px)';
+                    hiddenDiv.style.display = 'flex';
+                }, 2000);
+            });
+
+            // Ok button click: hide overlay, remove blur, reset form and button
+            okButton.addEventListener('click', function () {
+                hiddenDiv.style.display = 'none';
+                registrationBox.style.filter = 'none';
+                form.reset();
+
+            });
+        });
+    </script>
+
+    <script src="../scripts/main.js"></script>
+    <script src="../scripts/script.js"></script>
+</body>
+
+</html>

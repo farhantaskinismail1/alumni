@@ -1,0 +1,163 @@
+<header id="header">
+    <div class="container">
+        <div class="headerWrapper">
+            <div class="headLeft">
+                <h1>বাঁশগ্রাম হাইস্কুল অ্যালামনাই</h1>
+            </div>
+            <div class="headRight">
+                <ul>
+                    <li><a href="../index.html">হোম</a></li>
+                    <li><a href="registration.html">রেজিস্ট্রেশন</a></li>
+                    <li><a href="../gallery/gallery.php">গ্যালারি</a></li>
+                    <li><a href="contact.html">যোগাযোগ</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+<style>
+    /* --- Basic Reset and Container Setup --- */
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        width: 90%;
+        /* Use a fluid width */
+        max-width: 1200px;
+        /* Limit the max width on huge screens */
+        margin: 0 auto;
+    }
+
+    /* --- Desktop & Base Styles for the Header --- */
+    #header {
+        background-color: #004d40;
+        /* Dark green/teal for a professional, institutional look */
+        color: white;
+        padding: 15px 0;
+        border-bottom: 5px solid #ffc107;
+        /* Accent color (yellow/gold) */
+    }
+
+    .headerWrapper {
+        display: flex;
+        justify-content: space-between;
+        /* Puts logo left, menu right */
+        align-items: center;
+    }
+
+    /* Left side (School Name) */
+    .headLeft h1 {
+        font-size: 24px;
+        font-weight: 600;
+        white-space: nowrap;
+        /* Prevents the name from breaking line early */
+    }
+
+    /* Right side (Navigation) */
+    .headRight ul {
+        list-style: none;
+        display: flex;
+        gap: 25px;
+        /* Space between links */
+    }
+
+    .headRight ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 0;
+        transition: color 0.3s;
+    }
+
+    .headRight ul li a:hover {
+        color: #ffc107;
+        /* Highlight on hover */
+    }
+
+    /* --- Hamburger Menu Icon (Hidden on Desktop) --- */
+    .menu-toggle {
+        display: none;
+        /* Hide the icon by default */
+        background: none;
+        border: none;
+        font-size: 30px;
+        color: white;
+        cursor: pointer;
+        z-index: 100;
+        /* Ensure it's above other elements */
+    }
+
+    /* --- Mobile Styles (Media Query) --- */
+    @media (max-width: 768px) {
+
+        /* Styles that apply to screen widths 768px and smaller */
+        #header {
+            padding: 10px 0;
+        }
+
+        .headerWrapper {
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        /* Show the hamburger icon on mobile */
+        .menu-toggle {
+            display: block;
+        }
+
+        /* School Name on Mobile */
+        .headLeft h1 {
+            font-size: 20px;
+        }
+
+        /* Menu (Hidden by default, will be shown via JavaScript) */
+        .headRight {
+            position: absolute;
+            top: 60px;
+            /* Position it right below the header */
+            left: 0;
+            width: 100%;
+            background-color: #004d40;
+            /* Same as header background */
+            border-top: 1px solid #ffc107;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+            /* IMPORTANT: This is the default mobile state - hidden! */
+            display: none;
+        }
+
+        /* Stack the links vertically */
+        .headRight.open {
+            display: block;
+            /* Class added by JavaScript to show the menu */
+        }
+
+        .headRight ul {
+            flex-direction: column;
+            padding: 10px 0;
+            gap: 0;
+        }
+
+        /* Style for each stacked link */
+        .headRight ul li {
+            text-align: center;
+            width: 100%;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            /* Subtle separator */
+        }
+
+        .headRight ul li:last-child {
+            border-bottom: none;
+        }
+
+        .headRight ul li a {
+            font-size: 18px;
+            display: block;
+            /* Make the whole area clickable */
+        }
+    }
+</style>
