@@ -75,6 +75,24 @@
   .listShow span {
     font-size: 17px;
   }
+  .headRight ul {
+    display: flex;
+    gap: 0px;
+    height: 100%;
+    padding-left: 0px;
+  }
+  .headRight ul li a {
+    text-decoration: none;
+    color: black;
+    padding: 100% 10px;
+    /* background: red; */
+    font-size: 18px;
+    height: 100%;
+    transition: all 0.5s;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+  }
   .listShow a {
     transition: all 0.3s;
     display: inline-block;
